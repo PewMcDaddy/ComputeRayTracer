@@ -12,7 +12,7 @@ public:
 	~SceneTP3();
 	void initialiser();
 	void animer();
-	void dessiner();
+	void dessiner(GLsizei w, GLsizei h);
 
 	Nuanceur* progDraw_;
 	Nuanceur* progCalc_;

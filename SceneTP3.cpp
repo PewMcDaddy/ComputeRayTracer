@@ -22,7 +22,7 @@ void SceneTP3::animer()
 
 }
 
-void SceneTP3::dessiner()
+void SceneTP3::dessiner(GLsizei w, GLsizei h)
 {
 	
 }

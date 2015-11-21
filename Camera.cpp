@@ -5,6 +5,7 @@
 #define DEG2RAD(a) ((a) * M_PI / 180.0)
 #define RAD2DEG(a) ((a) * 180.0 / M_PI)
 #define CLIP(a,min,max) ( (a < min) ? min : ((a > max) ? max : a) )
+#include "Nuanceur.h"
 
 Camera::Camera(double dist, double theta, double phi, Nuanceur* progCalc)
 {
@@ -17,16 +18,16 @@ Camera::Camera(double dist, double theta, double phi, Nuanceur* progCalc)
 
 void Camera::definir()
 {
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	if (0)
-		gluLookAt(dist_*sin(theta_)*sin(phi_), dist_*cos(theta_)*sin(phi_), dist_*cos(phi_), 0, 0, 0, 0, 0, 1);
-	else
-	{
-		glTranslatef(0, 0, -dist_);
-		glRotatef(-RAD2DEG(phi_), 1.0, 0.0, 0.0);
-		glRotatef(180 + RAD2DEG(theta_), 0.0, 0.0, 1.0);
-	}
+	// TODO Calculer x,y,z selon phi,theta,dist et le point visé
+
+	float xCam = 1;
+	float yCam = 1;
+	float zCam = 1;
+
+
+	progCalc_->passerUniforme("xCam", xCam);
+	progCalc_->passerUniforme("yCam", yCam);
+	progCalc_->passerUniforme("zCam", zCam);
 }
 
 

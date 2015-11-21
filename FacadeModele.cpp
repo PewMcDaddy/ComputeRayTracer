@@ -132,7 +132,7 @@ void FacadeModele::afficherScene()
 
 	camera_->definir();
 
-	scene_->dessiner();
+	scene_->dessiner(g.largeur_, g.hauteur_);
 
 	glutSwapBuffers();
 }
