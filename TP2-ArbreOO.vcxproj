@@ -76,6 +76,7 @@
     <ClCompile Include="FacadeModele.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nuanceur.cpp" />
+    <ClCompile Include="NuanceurReg.cpp" />
     <ClCompile Include="Projection.cpp" />
     <ClCompile Include="SceneTP3.cpp" />
   </ItemGroup>
@@ -85,7 +86,7 @@
     <ClInclude Include="chargertex.h" />
     <ClInclude Include="FacadeModele.h" />
     <ClInclude Include="NuanceurReg.h" />
-    <ClInclude Include="NuanceurInterface.h" />
+    <ClInclude Include="Nuanceur.h" />
     <ClInclude Include="Projection.h" />
     <ClInclude Include="SceneTP3.h" />
   </ItemGroup>

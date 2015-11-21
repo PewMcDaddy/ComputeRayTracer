@@ -35,7 +35,7 @@ private:
 	Projection* projection_; // TODO GONE or change to orthographic
 	Camera* camera_; 
 	SceneTP3* scene_;
-	Nuanceur* prog_;
+	NuanceurReg* prog_;
 
 	struct G{
 		GLuint largeur_;

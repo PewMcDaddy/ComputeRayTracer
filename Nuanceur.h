@@ -4,11 +4,11 @@
 #include <string>
 
 // TODO NuanceurInterface
-class NuanceurInterface
+class Nuanceur
 {
 public:
-	NuanceurInterface(); // TODO NuanceurInterface
-	virtual ~NuanceurInterface() = 0;// TODO NuanceurInterface
+	Nuanceur(); // TODO NuanceurInterface
+	virtual ~Nuanceur();// TODO NuanceurInterface
 
 	// TODO virtual void compiler()
 	// compiler appelle compilerNormale( const char* sourceNS, const char* sourceNF) pour un programme régulier
@@ -23,8 +23,8 @@ public:
 
 	std::string getProgramInfo(GLuint poignee);// TODO NuanceurInterface
 
-private:
-
+protected:
+	GLuint programme_{ 0 };
 };
 
 

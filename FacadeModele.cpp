@@ -155,7 +155,7 @@ void FacadeModele::initialiser()
 
 	g.modePlein_ = true;
 
-	prog_ = new Nuanceur();
+	prog_ = new NuanceurReg();
 	// charger les nuanceurs
 	const char *ns = "nuanceurs/nuanceurSommets.glsl";
 	const char *nf = "nuanceurs/nuanceurFragments.glsl";

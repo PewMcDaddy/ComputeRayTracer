@@ -27,13 +27,16 @@
     <ClCompile Include="Projection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Nuanceur.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="chargertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneTP3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NuanceurReg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Nuanceur.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,10 +59,10 @@
     <ClInclude Include="SceneTP3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NuanceurInterface.h">
+    <ClInclude Include="NuanceurReg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NuanceurReg.h">
+    <ClInclude Include="Nuanceur.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

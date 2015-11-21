@@ -1,15 +1,16 @@
-#ifndef _NUANCEUR_H_
-#define _NUANCEUR_H_
+#ifndef _NUANCEURREG_H_
+#define _NUANCEURREG_H_
+#include "Nuanceur.h"
 #include <stdio.h>
 #include <iostream>
 #include <GL/glew.h>
 
 // TODO NuanceurInterface
-class Nuanceur
+class NuanceurReg: public Nuanceur
 {
 public:
-	Nuanceur(); // TODO NuanceurInterface
-	~Nuanceur();// TODO NuanceurInterface
+	NuanceurReg(); // TODO NuanceurInterface
+	~NuanceurReg();// TODO NuanceurInterface
 
 	// TODO virtual void compiler()
 	// compiler appelle compilerNormale( const char* sourceNS, const char* sourceNF) pour un programme régulier
@@ -22,14 +23,9 @@ public:
 	void activer();// TODO NuanceurInterface
 	void desactiver();// TODO NuanceurInterface
 
-	void passerUniforme(const std::string, int valeurEntiere);// TODO NuanceurInterface
-	void passerUniforme(const std::string, float valeurFlottante);// TODO NuanceurInterface
-
-	std::string getProgramInfo(GLuint poignee);// TODO NuanceurInterface
-
 private:
+	
 	struct Poignees{
-		GLuint programme_{0};
 		GLuint sommets_{0};
 		GLuint fragments_{0};
 	} poignees;
