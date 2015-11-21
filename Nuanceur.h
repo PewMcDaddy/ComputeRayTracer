@@ -10,11 +10,6 @@ public:
 	Nuanceur(); // TODO NuanceurInterface
 	virtual ~Nuanceur();// TODO NuanceurInterface
 
-	// TODO virtual void compiler()
-	// compiler appelle compilerNormale( const char* sourceNS, const char* sourceNF) pour un programme régulier
-	// et appelle compilerCompute(cons char* sourceCS) pour un compute shader.
-	virtual void compiler();
-
 	virtual void activer();// TODO NuanceurInterface
 	virtual void desactiver();// TODO NuanceurInterface
 

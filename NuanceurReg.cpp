@@ -1,18 +1,11 @@
 #include "NuanceurReg.h"
 #include <string>
 
-NuanceurReg::NuanceurReg()
-{
-	poignees.sommets_ = 0;
-	poignees.fragments_ = 0;
-}
 
-NuanceurReg::~NuanceurReg(){};
-
-char* lireNuanceur( const char* path)
+char* lireNuanceur(const char* path)
 {
 	// Safety check
-	if(path == 0) return 0;
+	if (path == 0) return 0;
 
 	// Open the file for reading
 	FILE* file = fopen(path, "r");
@@ -30,6 +23,15 @@ char* lireNuanceur( const char* path)
 	// Return the source code of the shader
 	return fileText;
 }
+
+NuanceurReg::NuanceurReg()
+{
+	poignees.sommets_ = 0;
+	poignees.fragments_ = 0;
+}
+
+NuanceurReg::~NuanceurReg(){};
+
 
 void NuanceurReg::compiler(const char* sourceNS, const char* sourceNF)
 {
@@ -75,12 +77,3 @@ void NuanceurReg::initialiser(const char* ns, const char* nf)
 	sourceNF = sourceNS = 0;
 }
 
-
-void NuanceurReg::activer()
-{
-	glUseProgram(programme_);
-}
-void NuanceurReg::desactiver()
-{
-	glUseProgram(0);
-}

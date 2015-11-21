@@ -9,19 +9,12 @@
 class NuanceurReg: public Nuanceur
 {
 public:
-	NuanceurReg(); // TODO NuanceurInterface
-	~NuanceurReg();// TODO NuanceurInterface
+	NuanceurReg();
+	~NuanceurReg();
 
-	// TODO virtual void compiler()
-	// compiler appelle compilerNormale( const char* sourceNS, const char* sourceNF) pour un programme régulier
-	// et appelle compilerCompute(cons char* sourceCS) pour un compute shader.
 	void compiler( const char* sourceNS, const char* sourceNF);
 
-	// TODO Même chose pour initialiser()
 	void initialiser( const char* ns, const char* nf);
-
-	void activer();// TODO NuanceurInterface
-	void desactiver();// TODO NuanceurInterface
 
 private:
 	
@@ -33,4 +26,4 @@ private:
 
 
 
-#endif // _NUANCEUR_H_
+#endif // _NUANCEURREG_H_
