@@ -10,6 +10,8 @@
 
 class ArbreRenduINF2705;
 class SceneTP3;
+class NuanceurCalc;
+
 class FacadeModele
 {
 public:
@@ -29,13 +31,15 @@ public:
 	void sourisMouvement( int CurseurX, int curseurY );
 
 	void setFeneID(GLuint ID);
-	Nuanceur* obtenirNuanceur(){return prog_;};
+	NuanceurReg* obtenirNuanceurReg(){ return progReg_; };
+	NuanceurCalc* obtenirNuanceurCalc(){ return progCalc_; };
 
 private:
 	Projection* projection_; // TODO GONE or change to orthographic
 	Camera* camera_; 
 	SceneTP3* scene_;
-	NuanceurReg* prog_;
+	NuanceurReg* progReg_;
+	NuanceurCalc* progCalc_;
 
 	struct G{
 		GLuint largeur_;

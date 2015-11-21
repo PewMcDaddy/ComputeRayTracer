@@ -7,6 +7,7 @@
 #include <GL/glut.h>
 #include <GL/freeglut.h>
 #include "SceneTP3.h"
+#include "NuanceurCalc.h"
 
 FacadeModele* FacadeModele::instance_ = 0;
 
@@ -155,13 +156,15 @@ void FacadeModele::initialiser()
 
 	g.modePlein_ = true;
 
-	prog_ = new NuanceurReg();
+	progReg_ = new NuanceurReg();
 	// charger les nuanceurs
 	const char *ns = "nuanceurs/nuanceurSommets.glsl";
 	const char *nf = "nuanceurs/nuanceurFragments.glsl";
-	prog_->initialiser( ns, nf );
+	progReg_->initialiser( ns, nf );
 
-	scene_ = new SceneTP3(prog_);
+	scene_ = new SceneTP3(progReg_, progCalc_);
 	scene_->initialiser();
-	camera_ = new Camera(5.0, 0.0, 1.0); // TODO Give it the computeShader 
+
+	progCalc_ = new NuanceurCalc();
+	camera_ = new Camera(5.0, 0.0, 1.0,progCalc_); // TODO Give it the computeShader 
 }

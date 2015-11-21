@@ -6,10 +6,12 @@
 #define MINTHETA -180
 #define MAXTHETA 180
 
+class Nuanceur;
+
 class Camera
 {
 public:
-	Camera(double, double, double);	
+	Camera(double, double, double, Nuanceur* progCalc);	
 	void definir(); // TODO Send Position to compute shader
 	void incrementerTheta(double deltaAngle);
 	void incrementerPhi(double deltaAngle);
@@ -19,7 +21,7 @@ public:
 	double phi_;
 	double dist_;
 
-	// Nuanceur* computeProg
+	Nuanceur* progCalc_;
 
 };
 

@@ -6,12 +6,13 @@
 #define RAD2DEG(a) ((a) * 180.0 / M_PI)
 #define CLIP(a,min,max) ( (a < min) ? min : ((a > max) ? max : a) )
 
-Camera::Camera(double dist, double theta, double phi)
+Camera::Camera(double dist, double theta, double phi, Nuanceur* progCalc)
 {
 	dist_ = dist;
 	theta_ = theta;
 	phi_ = phi;
 	modeLookAt_ = true;
+	progCalc_ = progCalc;
 }
 
 void Camera::definir()
