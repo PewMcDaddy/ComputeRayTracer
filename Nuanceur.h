@@ -3,20 +3,20 @@
 #include <GL/glew.h>
 #include <string>
 
-// TODO NuanceurInterface
+
 class Nuanceur
 {
 public:
-	Nuanceur(); // TODO NuanceurInterface
-	virtual ~Nuanceur();// TODO NuanceurInterface
+	Nuanceur();
+	virtual ~Nuanceur();
 
-	virtual void activer();// TODO NuanceurInterface
-	virtual void desactiver();// TODO NuanceurInterface
+	virtual void activer();
+	virtual void desactiver();
 
-	void passerUniforme(const std::string, int valeurEntiere);// TODO NuanceurInterface
-	void passerUniforme(const std::string, float valeurFlottante);// TODO NuanceurInterface
+	void passerUniforme(const std::string, int valeurEntiere);
+	void passerUniforme(const std::string, float valeurFlottante);
 
-	std::string getProgramInfo(GLuint poignee);// TODO NuanceurInterface
+	std::string getProgramInfo(GLuint poignee);
 
 protected:
 	GLuint programme_{ 0 };

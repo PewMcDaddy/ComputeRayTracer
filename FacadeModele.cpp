@@ -52,9 +52,6 @@ void FacadeModele::clavier( unsigned char touche, int x, int y )
 			if ( camera_->dist_ > 1.0 )
 				camera_->dist_ -= 0.1;
 			break;
-		//case 'r':
-		//	initialiser();
-		//	break;
 		case 'l':
 			camera_->modeLookAt_ = !camera_->modeLookAt_;
 			break;

@@ -1,6 +1,7 @@
 #include "NuanceurCalc.h"
 #include <string>
 #include <iostream>
+#include <fstream>
 
 
 char* lireNuanceur(const char* path);
@@ -18,6 +19,7 @@ void NuanceurCalc::compiler(const char* sourceNC)
 	// Assign handles for the program and shaders
 	programme_ = glCreateProgram();
 	calc_ = glCreateShader(GL_COMPUTE_SHADER);
+	std::cout << sourceNC << std::endl;
 
 	// Load and compile the compute shader
 	glShaderSource(calc_, 1, &sourceNC, NULL);
@@ -33,17 +35,32 @@ void NuanceurCalc::compiler(const char* sourceNC)
 	std::cout << getProgramInfo(calc_) << std::endl;
 }
 
+std::string lireNuanceurCalc(const char* path)
+{
+	std::string fileText;
+	std::string ligne;
 
+	std::ifstream fin;
+	fin.open(path);
+
+	getline(fin, ligne);
+	while (!fin.fail())
+	{
+		fileText += ligne + '\n';
+		getline(fin, ligne);
+	}
+
+	std::cout << fileText << std::endl;
+
+	// Return the source code of the shader
+	return fileText;
+}
 
 void NuanceurCalc::initialiser(const char* nc)
 {
 	// Read files into buffers
-	char* sourceNC = lireNuanceur(nc);
+	std::string sourceNC = lireNuanceurCalc(nc);
 
 	// Send source to GPU and compile
-	compiler(sourceNC);
-
-	// Free the source code buffers.
-	delete[] sourceNC;
-	sourceNC = nullptr;
+	compiler(sourceNC.c_str());
 }

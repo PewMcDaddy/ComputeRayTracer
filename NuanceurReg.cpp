@@ -1,24 +1,24 @@
 #include "NuanceurReg.h"
 #include <string>
+#include <iostream>
+#include <fstream>
 
-
-char* lireNuanceur(const char* path)
+std::string lireNuanceurReg(const char* path)
 {
-	// Safety check
-	if (path == 0) return 0;
+	std::string fileText;
+	std::string ligne;
 
-	// Open the file for reading
-	FILE* file = fopen(path, "r");
+	std::ifstream fin;
+	fin.open(path);
 
-	// Determine the length of the file and return to the start
-	fseek(file, 0, SEEK_END);
-	int fsize = ftell(file);
-	fseek(file, 0, SEEK_SET);
+	getline(fin, ligne);
+	while (!fin.fail())
+	{
+		fileText += ligne + '\n';
+		getline(fin, ligne);
+	}
 
-	// Read the file into a null-terminated buffer
-	char* fileText = new char[fsize + 1];
-	fread(fileText, fsize, 1, file);
-	fileText[fsize] = 0;
+	std::cout << fileText << std::endl;
 
 	// Return the source code of the shader
 	return fileText;
@@ -65,15 +65,10 @@ void NuanceurReg::compiler(const char* sourceNS, const char* sourceNF)
 void NuanceurReg::initialiser(const char* ns, const char* nf)
 {
 	// Read files into buffers
-	char* sourceNS = lireNuanceur(ns);
-	char* sourceNF = lireNuanceur(nf);
+	std::string sourceNS = lireNuanceurReg(ns);
+	std::string sourceNF = lireNuanceurReg(nf);
 	
 	// Send source to GPU and compile
-	compiler( sourceNS , sourceNF );
-
-	// Free the source code buffers.
-	delete[] sourceNF;
-	delete[] sourceNS;
-	sourceNF = sourceNS = 0;
+	compiler( sourceNS.c_str() , sourceNF.c_str() );
 }
 
