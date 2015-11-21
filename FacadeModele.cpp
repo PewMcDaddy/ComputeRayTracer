@@ -162,9 +162,12 @@ void FacadeModele::initialiser()
 	const char *nf = "nuanceurs/nuanceurFragments.glsl";
 	progReg_->initialiser( ns, nf );
 
+	progCalc_ = new NuanceurCalc();
+	const char *nc = "nuanceurs/nuanceurCalcul.glsl";
+	progCalc_->initialiser(nc);
+
 	scene_ = new SceneTP3(progReg_, progCalc_);
 	scene_->initialiser();
 
-	progCalc_ = new NuanceurCalc();
 	camera_ = new Camera(5.0, 0.0, 1.0,progCalc_); // TODO Give it the computeShader 
 }

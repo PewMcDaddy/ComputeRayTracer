@@ -17,7 +17,7 @@ void NuanceurCalc::compiler(const char* sourceNC)
 {
 	// Assign handles for the program and shaders
 	programme_ = glCreateProgram();
-	calc_ = glCreateShader(GL_VERTEX_SHADER);
+	calc_ = glCreateShader(GL_COMPUTE_SHADER);
 
 	// Load and compile the compute shader
 	glShaderSource(calc_, 1, &sourceNC, NULL);
