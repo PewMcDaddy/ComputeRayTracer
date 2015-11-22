@@ -18,7 +18,7 @@ std::string lireNuanceurReg(const char* path)
 		getline(fin, ligne);
 	}
 
-	std::cout << fileText << std::endl;
+	// std::cout << fileText << std::endl;
 
 	// Return the source code of the shader
 	return fileText;

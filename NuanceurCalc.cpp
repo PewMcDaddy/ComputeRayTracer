@@ -19,7 +19,6 @@ void NuanceurCalc::compiler(const char* sourceNC)
 	// Assign handles for the program and shaders
 	programme_ = glCreateProgram();
 	calc_ = glCreateShader(GL_COMPUTE_SHADER);
-	std::cout << sourceNC << std::endl;
 
 	// Load and compile the compute shader
 	glShaderSource(calc_, 1, &sourceNC, NULL);
@@ -50,7 +49,7 @@ std::string lireNuanceurCalc(const char* path)
 		getline(fin, ligne);
 	}
 
-	std::cout << fileText << std::endl;
+	// std::cout << fileText << std::endl;
 
 	// Return the source code of the shader
 	return fileText;
