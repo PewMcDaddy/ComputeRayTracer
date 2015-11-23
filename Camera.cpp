@@ -20,9 +20,9 @@ void Camera::definir()
 {
 	// TODO Calculer x,y,z selon phi,theta,dist et le point visé
 
-	float xCam = 1;
-	float yCam = 1;
-	float zCam = 1;
+	float xCam = -10;
+	float yCam = -10;
+	float zCam = 15;
 
 
 	progCalc_->passerUniforme("xCam", xCam);

@@ -123,13 +123,51 @@ void FacadeModele::redimensionnement( GLsizei w, GLsizei h )
 
 void FacadeModele::afficherScene()
 {
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+	//glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 
-	projection_->definir((GLdouble)g.largeur_ / (GLdouble)g.hauteur_);
+	//projection_->definir((GLdouble)g.largeur_ / (GLdouble)g.hauteur_);
 
+	progCalc_->activer();
 	camera_->definir();
 
-	scene_->dessiner(g.largeur_, g.hauteur_);
+	progCalc_->passerUniforme("outputTexture", 0);
+	glDispatchCompute(1024 / 16, 1024 / 16, 1);
+	GLenum e = glGetError();
+	if (e != GL_NO_ERROR) {
+		std::cout << "ERROR MOFO" << gluErrorString(e) << e << std::endl;
+	}
+
+	progReg_->activer();
+	// ============================================================================================
+
+
+	GLuint renderHandle = progReg_->programme_;
+	glUniform1i(glGetUniformLocation(renderHandle, "srcTex"), 0);
+	
+	
+	GLuint vertArray;
+	glGenVertexArrays(1, &vertArray);
+	glBindVertexArray(vertArray);
+
+	GLuint posBuf;
+	glGenBuffers(1, &posBuf);
+	glBindBuffer(GL_ARRAY_BUFFER, posBuf);
+	float data[] = {
+		-1.0f, -1.0f,
+		-1.0f, 1.0f,
+		1.0f, -1.0f,
+		1.0f, 1.0f
+	};
+
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)* 8, data, GL_STREAM_DRAW);
+	GLint posPtr = glGetAttribLocation(renderHandle, "pos");
+	glVertexAttribPointer(posPtr, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(posPtr);
+
+
+	// ============================================================================================
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glutSwapBuffers();
 }
@@ -146,10 +184,8 @@ void FacadeModele::initialiser()
 	glClearColor( 0.2, 0.2, 0.2, 1.0 );
 	
 	// activer les etats openGL
-	glEnable(GL_DEPTH_TEST);
+	// glEnable(GL_DEPTH_TEST);
 	projection_ = new Projection();
-
-
 
 	g.modePlein_ = true;
 
@@ -163,8 +199,16 @@ void FacadeModele::initialiser()
 	const char *nc = "nuanceurs/nuanceurCalcul.glsl";
 	progCalc_->initialiser(nc);
 
-	scene_ = new SceneTP3(progReg_, progCalc_);
-	scene_->initialiser();
-
 	camera_ = new Camera(5.0, 0.0, 1.0,progCalc_); // TODO Give it the computeShader 
+
+	GLuint texHandle;
+	glGenTextures(1, &texHandle);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texHandle);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_FLOAT, NULL);
+	glBindImageTexture(0, texHandle, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA);
+
+
 }

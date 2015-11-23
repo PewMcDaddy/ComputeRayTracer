@@ -17,9 +17,9 @@ public:
 	void passerUniforme(const std::string, float valeurFlottante);
 
 	std::string getProgramInfo(GLuint poignee);
-
-protected:
 	GLuint programme_{ 0 };
+protected:
+
 };
 
 

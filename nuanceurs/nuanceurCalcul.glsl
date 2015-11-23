@@ -7,8 +7,8 @@ uniform float zCam;
 
 writeonly uniform image2D outputTexture;
 
-uniform int M;
-uniform int N;
+// uniform int M;
+// uniform int N;
 
 struct Intersect{
 	float t;
@@ -81,75 +81,75 @@ Intersect intersectPlane(Ray r, int numPlane)
 	{
 		case 1:
 			center = rt - vec3(ltx,0,0);
-			inter = findIntersect(r, center,1, lty,ltz);
+			inter = findIntersect(r, center,0, lty,ltz);
 			inter.numPlane = numPlane;
 			break;
 		case 2:
 			center = rt + vec3(ltx,0,0);
-			inter = findIntersect(r, center,1, lty,ltz);
+			inter = findIntersect(r, center,0, lty,ltz);
 			inter.numPlane = numPlane;
 			break;
 		case 3: 
 	    	// Plan y = ...
 	    	center = rt + vec3(0,lty,0);
-			inter = findIntersect(r, center,2, ltz,ltx);
+			inter = findIntersect(r, center,1, ltz,ltx);
 	    	inter.numPlane = numPlane;
 	    	break;
 	    case 4:
 	    	// Plan y = ...
 	    	center = rt - vec3(0,lty,0);
-			inter = findIntersect(r, center,2, ltz,ltx);
+			inter = findIntersect(r, center,1, ltz,ltx);
 	    	inter.numPlane = numPlane;
 	    	break;
 	    case 5: 
 	    	// Plan z = ...
 	    	center = rt - vec3(0,0,ltz);
-			inter = findIntersect(r, center,3, ltx,lty);
+			// inter = findIntersect(r, center,2, ltx,lty);
 	    	inter.numPlane = numPlane;
 	    	break;
 	    case 6:
 	    	// Plan z = ...
 	    	center = rt + vec3(0,0,ltz);
-			inter = findIntersect(r, center,3, ltx,lty);
+			inter = findIntersect(r, center,2, ltx,lty);
 	    	inter.numPlane = numPlane;
 	    	break;
-
+		
 		case 7: // Plan x = 3
 			center = rm - vec3(lmx,0,0);
-			inter = findIntersect(r, center,1, lmy,lmz);
+			inter = findIntersect(r, center,0, lmy,lmz);
 			inter.numPlane = numPlane;
 			break;
 		case 8: // Plan x = 4
 			center = rm + vec3(lmx,0,0);
-			inter = findIntersect(r, center,1, lmy,lmz);
+			inter = findIntersect(r, center,0, lmy,lmz);
 			inter.numPlane = numPlane;
 			break;
 		case 9 :
 	    	// Plan y = 3
 	    	center = rm - vec3(0,lmy,0);
-			inter = findIntersect(r, center,2, lmz,lmx);
+			inter = findIntersect(r, center,1, lmz,lmx);
 	    	inter.numPlane = numPlane;
 	    	break;
 	    case 10 :
 	    	// Play y = 5
 	    	center = rm + vec3(0,lmy,0);
-			inter = findIntersect(r, center,2, lmz,lmx);
+			inter = findIntersect(r, center,1, lmz,lmx);
 	    	inter.numPlane = numPlane;
 	    	break;
 	    case 11 :
 	    	// Plan z = 12
 	    	center = rm - vec3(0,0,lmz);
-			inter = findIntersect(r, center,3, lmx,lmy);
+			inter = findIntersect(r, center,2, lmx,lmy);
 	    	inter.numPlane = numPlane;
 	    	break;
 	    case 12 :
 	    	// Plan z = 17
 	    	center = rm + vec3(0,0,lmz);
-			inter = findIntersect(r, center,3, lmx,lmy);
+			inter = findIntersect(r, center,2, lmx,lmy);
 	    	inter.numPlane = numPlane;
 	    	break;
 	}
-
+	
 	return inter;
 }
 
@@ -158,7 +158,10 @@ Intersect findFirstIntersect(Ray r)
 {
 	Intersect firstInter, inter;
 	firstInter.t = 10000;
+	firstInter.n = vec3(1,1,1);
 	firstInter.numPlane = -1;
+	firstInter.l = false;
+	inter = firstInter;
 	for(int i = 1; i <=12; i++)
 	{
 		inter = intersectPlane(r,i);
@@ -240,36 +243,46 @@ bool totalInternalReflection(vec3 d, vec3 n, float indAir, float indBloc, int nR
 
 vec4 RecCastRay(Ray r, float indAir, float indBloc, bool withLine, int nRebound, int nRefract)
 {
-	vec4 color = vec4(1,1,1,1);
 	if(nRefract > 1 || nRebound > 20)
 	{
-		return color;
+		return vec4(1,1,1,1);
 	}
 
 	Intersect inter = findFirstIntersect(r);
-
+	
 	if(1 <= inter.numPlane && inter.numPlane <= 6)
 	{
 		if(withLine && inter.l)
 			return vec4(0,0,0,1);
-			vec3 point = r.origin + inter.t * r.direction;
-		if(totalInternalReflection(r.direction,inter.n,indAir,indBloc,nRebound))
+	
+		vec3 point = r.origin + inter.t * r.direction;
+		bool reflInt = true;
+		reflInt = totalInternalReflection(r.direction,inter.n,indAir,indBloc,nRebound);
+		if(reflInt)
 		{
 			r.direction = reflectPhil(r.direction, inter.n);
 			r.origin = point;
-			return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract);
+			// return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract);
+			return vec4(0.5,0.5,0.5,1.0);
 		}
 		else
 		{
 			r.direction = refract(r.direction, inter.n,indAir,indBloc);
 			r.origin = point;
-			return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract+1);
+			// return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract+1);
+			return vec4(0.5,0.5,0.5,1.0);
 		}
 	}
-	else
+	else if(7 <= inter.numPlane && inter.numPlane <= 12)
 	{
 		return planeColor(inter.numPlane);
 	}
+	else
+	{
+		return vec4(0.5,0.5,0.5,1.0);
+	}
+
+	return vec4(0,1,1,1);
 
 }
 
@@ -282,6 +295,7 @@ vec4 castRay(vec3 obs, vec3 point, float indAir, float indBloc, bool withLine)
 	r.direction = normalize(point - obs);
 
 	return RecCastRay(r, indAir, indBloc, withLine, 0, 0);
+	return vec4(0.0,0.0,1.0,0.0);
 }
 
 vec3 pixelToPoint(int X, int Y, vec3 center, vec3 normal, int M, int N, float W, float H)
@@ -300,16 +314,24 @@ vec3 pixelToPoint(int X, int Y, vec3 center, vec3 normal, int M, int N, float W,
 
 
 layout (local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
+
+
 void main()
 {
 
+	vec4 couleur = vec4(1.0,0.0,1.0,1.0);
+	int M = 1024;
+	int N = 1024;
+	
 	int i = int(gl_GlobalInvocationID.x);
 	int j = int(gl_GlobalInvocationID.y);
-	vec3 center = vec3(3.5,3.5,15);
-
+	vec3 center = vec3(3.5,3.5,15.0);
+	// // 
 	vec3 normal = normalize(center - vec3(xCam,yCam,zCam));
+	// 
 	vec3 point = pixelToPoint(i,j,center,normal,M,N,10,10);
+	// 
+	couleur = castRay(vec3(xCam,yCam,zCam),point,1.0,1.5,true);
 
-	vec4 color = castRay(vec3(xCam,yCam,zCam),point,1.0,1.5,true);
-	imageStore(outputTexture,ivec2(i,j),color);
+	imageStore(outputTexture,ivec2(i,j),couleur);
 }
