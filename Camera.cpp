@@ -43,6 +43,12 @@ void Camera::incrementerTheta(double deltaAngle)
 void Camera::incrementerPhi(double deltaAngle)
 {
 	phi_ += deltaAngle;
-	phi_ = CLIP(phi_,MINPHI,MAXPHI);
+	if (phi_ > M_PI/2)
+		phi_ = M_PI / 2 - 0.001;
+
+
+	if (phi_ < -M_PI / 2)
+		phi_ = -M_PI / 2 + 0.001;
+	//phi_ = CLIP(phi_,-50,50);
 }
 

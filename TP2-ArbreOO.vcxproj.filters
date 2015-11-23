@@ -24,15 +24,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Projection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="chargertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneTP3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NuanceurReg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,18 +39,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FacadeModele.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Projection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="chargertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bitmap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneTP3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NuanceurReg.h">

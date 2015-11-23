@@ -72,25 +72,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="chargertex.cpp" />
     <ClCompile Include="FacadeModele.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nuanceur.cpp" />
     <ClCompile Include="NuanceurCalc.cpp" />
     <ClCompile Include="NuanceurReg.cpp" />
-    <ClCompile Include="Projection.cpp" />
-    <ClCompile Include="SceneTP3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bitmap.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="chargertex.h" />
     <ClInclude Include="FacadeModele.h" />
     <ClInclude Include="NuanceurCalc.h" />
     <ClInclude Include="NuanceurReg.h" />
     <ClInclude Include="Nuanceur.h" />
-    <ClInclude Include="Projection.h" />
-    <ClInclude Include="SceneTP3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

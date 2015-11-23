@@ -10,6 +10,8 @@ writeonly uniform image2D outputTexture;
 uniform int M;
 uniform int N;
 
+uniform float indiceBloc;
+
 struct Intersect{
 	float t;
 	vec3 n;
@@ -263,7 +265,7 @@ for(int nbRebonds = 0; nbRebonds <= 16 ; nbRebonds++)
 	else if(1 <= inter.numPlane && inter.numPlane <= 6)
 	{
 		
-		if(withLine && inter.l)
+		if(withLine && inter.l && nbRebonds < 2)
 			return vec4(0,0,0,1);
 
 		vec3 point = r.origin + inter.t * r.direction;
@@ -358,7 +360,7 @@ void main()
 	
 	int i = int(gl_GlobalInvocationID.x);
 	int j = int(gl_GlobalInvocationID.y);
-	vec3 center = vec3(3.5,3.5,15.0);
+	vec3 center = vec3(3.5,3.5,12.0);
 
 	vec3 cam = vec3(xCam,yCam,zCam) + center;
 	// cam = vec3(-10,3.5,15);
@@ -370,7 +372,7 @@ void main()
 	center = cam - 1 * normal;
 	vec3 point = pixelToPoint(i,j,center,normal,M,N,1,float(M)/float(N));
 	// 
-	couleur = castRay(cam,point,1.0,1.5,true);
+	couleur = castRay(cam,point,1.1,indiceBloc,true);
 	//couleur = vec4(sin(float(i)/10.0),cos(float(j)/10),0,1);
 	imageStore(outputTexture,ivec2(i,j),couleur);
 }

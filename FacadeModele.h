@@ -1,7 +1,6 @@
 #define LARGEUR_INITIALE 900
 #define HAUTEUR_INITIALE 600
 #include <GL/glew.h>
-#include "Projection.h"
 #include "Camera.h"
 #include "NuanceurReg.h"
 
@@ -35,7 +34,6 @@ public:
 	NuanceurCalc* obtenirNuanceurCalc(){ return progCalc_; };
 
 private:
-	Projection* projection_; // TODO GONE or change to orthographic
 	Camera* camera_; 
 	SceneTP3* scene_;
 	NuanceurReg* progReg_;
@@ -53,6 +51,7 @@ private:
 		int dernierY_;
 	}curseur;
 	int nPredivide{3};
+	float indiceBloc_;
 
 	static FacadeModele* instance_;
 

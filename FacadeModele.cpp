@@ -6,7 +6,6 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <GL/freeglut.h>
-#include "SceneTP3.h"
 #include "NuanceurCalc.h"
 
 FacadeModele* FacadeModele::instance_ = 0;
@@ -26,7 +25,7 @@ void FacadeModele::libererInstance()
 
 FacadeModele::FacadeModele()
 {
-
+	indiceBloc_ = 1.5;
 }
 
 FacadeModele::~FacadeModele()
@@ -44,14 +43,17 @@ void FacadeModele::clavier( unsigned char touche, int x, int y )
 			break;
 		case '-':
 		case '_':
-				// Changer distance. 
-				camera_->dist_ += 0.1;
+			if (indiceBloc_ > 0.3)
+				indiceBloc_ -= 0.05;
+			std::cout << "IndiceBloc " << indiceBloc_ << std::endl;
 			break;
 		case '+':
 		case '=':
-			if ( camera_->dist_ > 1.0 )
-				camera_->dist_ -= 0.1;
+			// Changer distance. 
+			indiceBloc_ += 0.05;
+			std::cout << "IndiceBloc " << indiceBloc_ << std::endl;
 			break;
+			
 		case 'l':
 			camera_->modeLookAt_ = !camera_->modeLookAt_;
 			break;
@@ -142,6 +144,8 @@ void FacadeModele::afficherScene()
 	progCalc_->activer();
 	progCalc_->passerUniforme("M",(int) g.hauteur_);
 	progCalc_->passerUniforme("N",(int) g.largeur_);
+
+	progCalc_->passerUniforme("indiceBloc", indiceBloc_);
 	camera_->definir();
 
 	progCalc_->passerUniforme("outputTexture", 0);
@@ -199,7 +203,6 @@ void FacadeModele::initialiser()
 	
 	// activer les etats openGL
 	// glEnable(GL_DEPTH_TEST);
-	projection_ = new Projection();
 
 	g.modePlein_ = true;
 
