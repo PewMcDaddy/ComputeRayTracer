@@ -42,6 +42,8 @@ Intersect findIntersect(Ray r, vec3 center,int axis, float jDim, float kDim)
 			{
 				n[i] = 1;
 				t = tInter;
+				if(jDim - abs(center[j] - interPoint[j]) < 0.08 || kDim - abs(center[k] - interPoint[k]) < 0.08)
+					l = true;
 			}
 		}
 	}
@@ -104,7 +106,7 @@ Intersect intersectPlane(Ray r, int numPlane)
 	    case 5: 
 	    	// Plan z = ...
 	    	center = rt - vec3(0,0,ltz);
-			// inter = findIntersect(r, center,2, ltx,lty);
+			inter = findIntersect(r, center,2, ltx,lty);
 	    	inter.numPlane = numPlane;
 	    	break;
 	    case 6:
@@ -252,10 +254,10 @@ vec4 RecCastRay(Ray r, float indAir, float indBloc, bool withLine, int nRebound,
 	
 	if(1 <= inter.numPlane && inter.numPlane <= 6)
 	{
-		return vec4(1,1,0,1);
+		
 		if(withLine && inter.l)
 			return vec4(0,0,0,1);
-	
+		return vec4(1,1,0,1);
 		vec3 point = r.origin + inter.t * r.direction;
 		bool reflInt = true;
 		reflInt = totalInternalReflection(r.direction,inter.n,indAir,indBloc,nRebound);
@@ -325,14 +327,14 @@ void main()
 	
 	int i = int(gl_GlobalInvocationID.x);
 	int j = int(gl_GlobalInvocationID.y);
-	vec3 center = vec3(0,0,15.0);
+	vec3 center = vec3(3.5,3.5,15.0);
 
-	vec3 cam = vec3(xCam,yCam,zCam);
+	vec3 cam = vec3(xCam,yCam,zCam) + center;
 	// cam = vec3(-10,3.5,15);
 	// // 
 	vec3 normal = normalize(center - cam);
 	// 
-	vec3 point = pixelToPoint(i,j,center,normal,M,N,10,10);
+	vec3 point = pixelToPoint(i,j,center,normal,M,N,10,23);
 	// 
 	couleur = castRay(cam,point,1.0,1.5,true);
 	//couleur = vec4(sin(float(i)/10.0),cos(float(j)/10),0,1);

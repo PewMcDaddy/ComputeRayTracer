@@ -24,6 +24,13 @@ void Camera::definir()
 	float yCam = -10;
 	float zCam = 15;
 
+	float r = dist_ * cos(phi_);
+	zCam = dist_ * sin(phi_);
+	xCam = r * cos(theta_);
+	yCam = r * sin(theta_);
+
+
+
 
 	progCalc_->passerUniforme("xCam", xCam);
 	progCalc_->passerUniforme("yCam", yCam);

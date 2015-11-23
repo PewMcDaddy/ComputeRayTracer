@@ -82,12 +82,15 @@ void FacadeModele::sourisClic( int button, int state, int CurseurX, int curseurY
 	if ((button == GLUT_WHEEL_DOWN) || (button == GLUT_WHEEL_UP)) 
     { 
 		if ( button == GLUT_WHEEL_DOWN ){
-			camera_->dist_ += .1;
+			camera_->dist_ += 1;
+			std::cout << camera_->dist_ << std::endl;
 		}
 		else  // WHEEL_UP
-		if (camera_->dist_ > 1)
-				camera_->dist_ -= .1;
-       glutPostRedisplay();
+		if (camera_->dist_ > 1){
+			camera_->dist_ -= 1;
+			std::cout << camera_->dist_ << std::endl;
+		}
+		glutPostRedisplay();
 	}
 }
 
@@ -133,9 +136,6 @@ void FacadeModele::afficherScene()
 	glBindTexture(GL_TEXTURE_2D, texHandle);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
-	// glBindImageTexture(0, texHandle, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA);
-
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, g.largeur_, g.hauteur_, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
 	glBindImageTexture(0, texHandle, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
 
