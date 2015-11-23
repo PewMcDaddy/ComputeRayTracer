@@ -11,7 +11,7 @@ class Nuanceur;
 class Camera
 {
 public:
-	Camera(double, double, double, Nuanceur* progCalc);	
+	Camera(double dist, double theta, double phi, Nuanceur* progCalc);
 	void definir(); // TODO Send Position to compute shader
 	void incrementerTheta(double deltaAngle);
 	void incrementerPhi(double deltaAngle);

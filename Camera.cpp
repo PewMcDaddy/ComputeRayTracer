@@ -18,16 +18,11 @@ Camera::Camera(double dist, double theta, double phi, Nuanceur* progCalc)
 
 void Camera::definir()
 {
-	// TODO Calculer x,y,z selon phi,theta,dist et le point visé
-
-	float xCam = -10;
-	float yCam = -10;
-	float zCam = 15;
-
 	float r = dist_ * cos(phi_);
-	zCam = dist_ * sin(phi_);
-	xCam = r * cos(theta_);
-	yCam = r * sin(theta_);
+	
+	float zCam = dist_ * sin(phi_);
+	float xCam = r * cos(theta_);
+	float yCam = r * sin(theta_);
 
 	progCalc_->passerUniforme("xCam", xCam);
 	progCalc_->passerUniforme("yCam", yCam);
@@ -44,11 +39,10 @@ void Camera::incrementerPhi(double deltaAngle)
 {
 	phi_ += deltaAngle;
 	if (phi_ > M_PI/2)
-		phi_ = M_PI / 2 - 0.001;
+		phi_ = M_PI*0.4999;
 
 
 	if (phi_ < -M_PI / 2)
-		phi_ = -M_PI / 2 + 0.001;
-	//phi_ = CLIP(phi_,-50,50);
+		phi_ = -M_PI*0.4999;
 }
 

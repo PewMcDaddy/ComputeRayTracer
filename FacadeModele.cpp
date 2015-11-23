@@ -128,10 +128,6 @@ void FacadeModele::redimensionnement( GLsizei w, GLsizei h )
 
 void FacadeModele::afficherScene()
 {
-	//glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-
-	//projection_->definir((GLdouble)g.largeur_ / (GLdouble)g.hauteur_);
-
 	GLuint texHandle;
 	glGenTextures(1, &texHandle);
 	glActiveTexture(GL_TEXTURE0);
@@ -156,13 +152,8 @@ void FacadeModele::afficherScene()
 	}
 
 	progReg_->activer();
-	// ============================================================================================
-
-
 	GLuint renderHandle = progReg_->programme_;
 	glUniform1i(glGetUniformLocation(renderHandle, "srcTex"), 0);
-	
-	
 	GLuint vertArray;
 	glGenVertexArrays(1, &vertArray);
 	glBindVertexArray(vertArray);
@@ -176,15 +167,11 @@ void FacadeModele::afficherScene()
 		1.0f, -1.0f,
 		1.0f, 1.0f
 	};
-
-
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float)* 8, data, GL_STREAM_DRAW);
 	GLint posPtr = glGetAttribLocation(renderHandle, "pos");
 	glVertexAttribPointer(posPtr, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posPtr);
 
-
-	// ============================================================================================
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	glutSwapBuffers();
@@ -198,13 +185,7 @@ void FacadeModele::setFeneID(GLuint ID)
 void FacadeModele::initialiser()
 {
 	glewInit();
-	// donner la couleur de fond
-	glClearColor( 0.2, 0.2, 0.2, 1.0 );
-	
-	// activer les etats openGL
-	// glEnable(GL_DEPTH_TEST);
 
-	g.modePlein_ = true;
 
 	progReg_ = new NuanceurReg();
 	// charger les nuanceurs
@@ -213,11 +194,10 @@ void FacadeModele::initialiser()
 	progReg_->initialiser( ns, nf );
 
 	progCalc_ = new NuanceurCalc();
-	// const char *nc = "nuanceurs/dude.glsl";
 	const char *nc = "nuanceurs/nuanceurCalcul.glsl";
 	progCalc_->initialiser(nc);
 
-	camera_ = new Camera(5.0, 0.0, 1.0,progCalc_); // TODO Give it the computeShader 
+	camera_ = new Camera(30.0, 1.05,0.5 ,progCalc_);
 
 
 }
