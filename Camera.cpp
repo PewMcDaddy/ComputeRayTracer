@@ -29,9 +29,6 @@ void Camera::definir()
 	xCam = r * cos(theta_);
 	yCam = r * sin(theta_);
 
-
-
-
 	progCalc_->passerUniforme("xCam", xCam);
 	progCalc_->passerUniforme("yCam", yCam);
 	progCalc_->passerUniforme("zCam", zCam);

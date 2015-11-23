@@ -100,7 +100,7 @@ void FacadeModele::sourisMouvement( int curseurX, int curseurY )
 	int deltaX = curseurX - curseur.dernierX_;
 	int deltaY = curseurY - curseur.dernierY_;
 	
-	camera_->incrementerTheta( deltaX / 100.0);
+	camera_->incrementerTheta( -deltaX / 100.0);
 
 	camera_->incrementerPhi( deltaY / 100.0);
 	

@@ -250,43 +250,74 @@ vec4 RecCastRay(Ray r, float indAir, float indBloc, bool withLine, int nRebound,
 		return vec4(1,1,1,1);
 	}
 
+
+for(int nbRebonds = 0; nbRebonds <= 16 ; nbRebonds++)
+{
+
 	Intersect inter = findFirstIntersect(r);
-	
-	if(1 <= inter.numPlane && inter.numPlane <= 6)
+
+	if(7 <= inter.numPlane && inter.numPlane <= 12)
+	{
+		return planeColor(inter.numPlane);
+	}
+	else if(1 <= inter.numPlane && inter.numPlane <= 6)
 	{
 		
 		if(withLine && inter.l)
 			return vec4(0,0,0,1);
-		return vec4(1,1,0,1);
+
 		vec3 point = r.origin + inter.t * r.direction;
 		bool reflInt = true;
-		reflInt = totalInternalReflection(r.direction,inter.n,indAir,indBloc,nRebound);
+		reflInt = totalInternalReflection(r.direction,inter.n,indAir,indBloc,nbRebonds);
 		if(reflInt)
 		{
 			r.direction = reflectPhil(r.direction, inter.n);
-			r.origin = point;
-			// return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract);
-			return vec4(0.5,0.5,0.5,1.0);
+			r.origin = point + 0.0001*r.direction;
 		}
 		else
 		{
 			r.direction = refract(r.direction, inter.n,indAir,indBloc);
-			r.origin = point;
-			// return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract+1);
-			return vec4(0.5,0.5,0.5,1.0);
+			r.origin = point + 0.0001*r.direction;;
 		}
-	}
-	else if(7 <= inter.numPlane && inter.numPlane <= 12)
-	{
-		return vec4(1,0,1,1);
-		return planeColor(inter.numPlane);
 	}
 	else
 	{
-		return vec4(0,1,1,1.0);
+		return vec4(1,1,1,1);
 	}
 
-	return vec4(0,1,1,1);
+}
+	
+	// 	if(1 <= inter.numPlane && inter.numPlane <= 6)
+	// 	{
+	// 		
+	// 		if(withLine && inter.l)
+	// 			return vec4(0,0,0,1);
+	// 		return vec4(1,1,0,1);
+	// 		vec3 point = r.origin + inter.t * r.direction;
+	// 		bool reflInt = true;
+	// 		reflInt = totalInternalReflection(r.direction,inter.n,indAir,indBloc,nRebound);
+	// 		if(reflInt)
+	// 		{
+	// 			r.direction = reflectPhil(r.direction, inter.n);
+	// 			r.origin = point;
+	// 			// return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract);
+	// 			return vec4(0.5,0.5,0.5,1.0);
+	// 		}
+	// 		else
+	// 		{
+	// 			r.direction = refract(r.direction, inter.n,indAir,indBloc);
+	// 			r.origin = point;
+	// 			// return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract+1);
+	// 			return vec4(0.5,0.5,0.5,1.0);
+	// 		}
+	// 	}
+	// 	else 
+	// 	else
+	// 	{
+	// 		return vec4(0,1,1,1.0);
+	// 	}
+
+	return vec4(1,1,1,1);
 
 }
 
@@ -332,9 +363,12 @@ void main()
 	vec3 cam = vec3(xCam,yCam,zCam) + center;
 	// cam = vec3(-10,3.5,15);
 	// // 
-	vec3 normal = normalize(center - cam);
+
+	vec3 normal = -normalize(center - cam);
 	// 
-	vec3 point = pixelToPoint(i,j,center,normal,M,N,10,23);
+
+	center = cam - 1 * normal;
+	vec3 point = pixelToPoint(i,j,center,normal,M,N,1,float(M)/float(N));
 	// 
 	couleur = castRay(cam,point,1.0,1.5,true);
 	//couleur = vec4(sin(float(i)/10.0),cos(float(j)/10),0,1);
