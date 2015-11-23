@@ -1,5 +1,5 @@
 #version 430
-#define FAR_CLIP 1000.0f
+
 
 uniform float xCam;
 uniform float yCam;
@@ -7,8 +7,8 @@ uniform float zCam;
 
 writeonly uniform image2D outputTexture;
 
-// uniform int M;
-// uniform int N;
+uniform int M;
+uniform int N;
 
 struct Intersect{
 	float t;
@@ -252,6 +252,7 @@ vec4 RecCastRay(Ray r, float indAir, float indBloc, bool withLine, int nRebound,
 	
 	if(1 <= inter.numPlane && inter.numPlane <= 6)
 	{
+		return vec4(1,1,0,1);
 		if(withLine && inter.l)
 			return vec4(0,0,0,1);
 	
@@ -275,11 +276,12 @@ vec4 RecCastRay(Ray r, float indAir, float indBloc, bool withLine, int nRebound,
 	}
 	else if(7 <= inter.numPlane && inter.numPlane <= 12)
 	{
+		return vec4(1,0,1,1);
 		return planeColor(inter.numPlane);
 	}
 	else
 	{
-		return vec4(0.5,0.5,0.5,1.0);
+		return vec4(0,1,1,1.0);
 	}
 
 	return vec4(0,1,1,1);
@@ -305,7 +307,7 @@ vec3 pixelToPoint(int X, int Y, vec3 center, vec3 normal, int M, int N, float W,
 	vec3 vDirection = normalize(cross(normal,uDirection));
 
 	float u = W*(X - N/2.0f)/N;
-	float v = H*(M/2.0f - Y)/M;
+	float v = H*(Y - M/2.0f)/M;
 
 	point = center + u*uDirection + v*vDirection;
 
@@ -320,18 +322,19 @@ void main()
 {
 
 	vec4 couleur = vec4(1.0,0.0,1.0,1.0);
-	int M = 1024;
-	int N = 1024;
 	
 	int i = int(gl_GlobalInvocationID.x);
 	int j = int(gl_GlobalInvocationID.y);
-	vec3 center = vec3(3.5,3.5,15.0);
+	vec3 center = vec3(0,0,15.0);
+
+	vec3 cam = vec3(xCam,yCam,zCam);
+	// cam = vec3(-10,3.5,15);
 	// // 
-	vec3 normal = normalize(center - vec3(xCam,yCam,zCam));
+	vec3 normal = normalize(center - cam);
 	// 
 	vec3 point = pixelToPoint(i,j,center,normal,M,N,10,10);
 	// 
-	couleur = castRay(vec3(xCam,yCam,zCam),point,1.0,1.5,true);
-
+	couleur = castRay(cam,point,1.0,1.5,true);
+	//couleur = vec4(sin(float(i)/10.0),cos(float(j)/10),0,1);
 	imageStore(outputTexture,ivec2(i,j),couleur);
 }

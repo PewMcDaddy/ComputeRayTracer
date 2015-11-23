@@ -127,11 +127,25 @@ void FacadeModele::afficherScene()
 
 	//projection_->definir((GLdouble)g.largeur_ / (GLdouble)g.hauteur_);
 
+	GLuint texHandle;
+	glGenTextures(1, &texHandle);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texHandle);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
+	// glBindImageTexture(0, texHandle, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, g.largeur_, g.hauteur_, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
+	glBindImageTexture(0, texHandle, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+
 	progCalc_->activer();
+	progCalc_->passerUniforme("M",(int) g.hauteur_);
+	progCalc_->passerUniforme("N",(int) g.largeur_);
 	camera_->definir();
 
 	progCalc_->passerUniforme("outputTexture", 0);
-	glDispatchCompute(1024 / 16, 1024 / 16, 1);
+	glDispatchCompute(g.largeur_ /16 + 1, g.hauteur_/16 + 1 , 1);
 	GLenum e = glGetError();
 	if (e != GL_NO_ERROR) {
 		std::cout << "ERROR MOFO" << gluErrorString(e) << e << std::endl;
@@ -196,19 +210,11 @@ void FacadeModele::initialiser()
 	progReg_->initialiser( ns, nf );
 
 	progCalc_ = new NuanceurCalc();
+	// const char *nc = "nuanceurs/dude.glsl";
 	const char *nc = "nuanceurs/nuanceurCalcul.glsl";
 	progCalc_->initialiser(nc);
 
 	camera_ = new Camera(5.0, 0.0, 1.0,progCalc_); // TODO Give it the computeShader 
-
-	GLuint texHandle;
-	glGenTextures(1, &texHandle);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texHandle);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_FLOAT, NULL);
-	glBindImageTexture(0, texHandle, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA);
 
 
 }
