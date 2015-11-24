@@ -38,6 +38,9 @@ private:
 	SceneTP3* scene_;
 	NuanceurReg* progReg_;
 	NuanceurCalc* progCalc_;
+	GLuint texHandle_;
+	int nbRebonds_;
+	int miroir_;
 
 	struct G{
 		GLuint largeur_;

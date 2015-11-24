@@ -26,6 +26,8 @@ void FacadeModele::libererInstance()
 FacadeModele::FacadeModele()
 {
 	indiceBloc_ = 1.5;
+	nbRebonds_ = 15;
+	miroir_ = 0;
 }
 
 FacadeModele::~FacadeModele()
@@ -54,8 +56,18 @@ void FacadeModele::clavier( unsigned char touche, int x, int y )
 			std::cout << "IndiceBloc " << indiceBloc_ << std::endl;
 			break;
 			
-		case 'l':
-			camera_->modeLookAt_ = !camera_->modeLookAt_;
+		case 'n':
+			nbRebonds_ += 1;
+			break;
+
+		case 'b':
+			if (nbRebonds_ >1 )
+				nbRebonds_ -= 1;
+			break;
+		case 'm':
+			if (miroir_)
+				miroir_ = 0;
+			else miroir_ = 1;
 			break;
 		case 'g':
 			{
@@ -128,20 +140,22 @@ void FacadeModele::redimensionnement( GLsizei w, GLsizei h )
 
 void FacadeModele::afficherScene()
 {
-	GLuint texHandle;
-	glGenTextures(1, &texHandle);
+
+	glGenTextures(1, &texHandle_);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texHandle);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, texHandle_);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, g.largeur_, g.hauteur_, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, NULL);
-	glBindImageTexture(0, texHandle, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
+	glBindImageTexture(0, texHandle_, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
 
 	progCalc_->activer();
 	progCalc_->passerUniforme("M",(int) g.hauteur_);
 	progCalc_->passerUniforme("N",(int) g.largeur_);
 
 	progCalc_->passerUniforme("indiceBloc", indiceBloc_);
+	progCalc_->passerUniforme("nbRebonds", nbRebonds_);
+	progCalc_->passerUniforme("miroir", miroir_);
 	camera_->definir();
 
 	progCalc_->passerUniforme("outputTexture", 0);
@@ -198,6 +212,6 @@ void FacadeModele::initialiser()
 	progCalc_->initialiser(nc);
 
 	camera_ = new Camera(30.0, 1.05,0.5 ,progCalc_);
-
+	glGenTextures(1, &texHandle_);
 
 }

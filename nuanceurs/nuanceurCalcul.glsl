@@ -12,6 +12,9 @@ uniform int N;
 
 uniform float indiceBloc;
 
+uniform int nbRebonds;
+uniform int miroir;
+
 struct Intersect{
 	float t;
 	vec3 n;
@@ -253,7 +256,7 @@ vec4 RecCastRay(Ray r, float indAir, float indBloc, bool withLine, int nRebound,
 	}
 
 
-for(int nbRebonds = 0; nbRebonds <= 16 ; nbRebonds++)
+for(int rebond = 0; rebond <= nbRebonds ; rebond++)
 {
 
 	Intersect inter = findFirstIntersect(r);
@@ -265,13 +268,13 @@ for(int nbRebonds = 0; nbRebonds <= 16 ; nbRebonds++)
 	else if(1 <= inter.numPlane && inter.numPlane <= 6)
 	{
 		
-		if(withLine && inter.l && nbRebonds < 2)
+		if(withLine && inter.l && rebond < 2)
 			return vec4(0,0,0,1);
 
 		vec3 point = r.origin + inter.t * r.direction;
 		bool reflInt = true;
-		reflInt = totalInternalReflection(r.direction,inter.n,indAir,indBloc,nbRebonds);
-		if(reflInt)
+		reflInt = totalInternalReflection(r.direction,inter.n,indAir,indBloc,rebond);
+		if(reflInt || (rebond > 0 && miroir ==1))
 		{
 			r.direction = reflectPhil(r.direction, inter.n);
 			r.origin = point + 0.0001*r.direction;
