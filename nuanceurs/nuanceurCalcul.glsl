@@ -291,36 +291,7 @@ for(int rebond = 0; rebond <= nbRebonds ; rebond++)
 	}
 
 }
-	
-	// 	if(1 <= inter.numPlane && inter.numPlane <= 6)
-	// 	{
-	// 		
-	// 		if(withLine && inter.l)
-	// 			return vec4(0,0,0,1);
-	// 		return vec4(1,1,0,1);
-	// 		vec3 point = r.origin + inter.t * r.direction;
-	// 		bool reflInt = true;
-	// 		reflInt = totalInternalReflection(r.direction,inter.n,indAir,indBloc,nRebound);
-	// 		if(reflInt)
-	// 		{
-	// 			r.direction = reflectPhil(r.direction, inter.n);
-	// 			r.origin = point;
-	// 			// return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract);
-	// 			return vec4(0.5,0.5,0.5,1.0);
-	// 		}
-	// 		else
-	// 		{
-	// 			r.direction = refract(r.direction, inter.n,indAir,indBloc);
-	// 			r.origin = point;
-	// 			// return RecCastRay(r,indAir,indBloc,withLine,nRebound + 1,nRefract+1);
-	// 			return vec4(0.5,0.5,0.5,1.0);
-	// 		}
-	// 	}
-	// 	else 
-	// 	else
-	// 	{
-	// 		return vec4(0,1,1,1.0);
-	// 	}
+
 
 	return vec4(1,1,1,1);
 
@@ -375,7 +346,7 @@ void main()
 	center = cam - 1 * normal;
 	vec3 point = pixelToPoint(i,j,center,normal,M,N,1,float(M)/float(N));
 	// 
-	couleur = castRay(cam,point,1.1,indiceBloc,true);
+	couleur = castRay(cam,point,1.0,indiceBloc,true);
 	//couleur = vec4(sin(float(i)/10.0),cos(float(j)/10),0,1);
 	imageStore(outputTexture,ivec2(i,j),couleur);
 }
