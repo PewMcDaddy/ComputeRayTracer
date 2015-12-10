@@ -18,9 +18,11 @@ Infos sur les librairies graphiques nécessaires
 ===============================================
 
 Pour avoir OpenGL, GLEW et GLUT sur VisualStudio, il faut aller dans 
-Tools -> Library Package Manager -> Package Manager Console.
-
+Tools -> Library Package Manager -> Package Manager Console. 
 Écrire la commande Install-Package nupengl.core
+
+Ça devrait se faire tout seul après un clone à cause du fichier packages.config: à la première compilation, VS va installer les packages manquants.
+
 
 Pour le faire sur linux il faut installer les versions "devel" des packages OpenGL, freeglut et glew ainsi que GLU.  Par exemple, sur Fedora:
 
