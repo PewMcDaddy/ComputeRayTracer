@@ -36,6 +36,6 @@ std::string Nuanceur::getProgramInfo(GLuint poignee)
 	// Return a string constructed from the buffer.
 	std::string logString{ logText };
 	delete[] logText;
-	return std::move(logString);
+	return logString;
 }
 

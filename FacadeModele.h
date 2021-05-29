@@ -35,7 +35,6 @@ public:
 
 private:
 	Camera* camera_; 
-	SceneTP3* scene_;
 	NuanceurReg* progReg_;
 	NuanceurCalc* progCalc_;
 	GLuint texHandle_;
@@ -53,7 +52,6 @@ private:
 		int dernierX_;
 		int dernierY_;
 	}curseur;
-	int nPredivide{3};
 	float indiceBloc_;
 
 	static FacadeModele* instance_;

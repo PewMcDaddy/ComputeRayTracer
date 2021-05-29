@@ -1,5 +1,5 @@
 include colors.mk
-CXXFLAGS += -std=c++11 -I/usr/X11/include -I/opt/homebrew/include -W -Wall -Wno-unused-parameter -Wno-deprecated-declarations
+CXXFLAGS += -std=c++11 -I/usr/X11/include -I/opt/homebrew/include -W -Wall -Wno-unused-parameter -Wno-deprecated-declarations -Werror=all
 
 # brew install
 # - mesa
