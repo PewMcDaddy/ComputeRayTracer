@@ -1,5 +1,12 @@
-CXXFLAGS += -std=c++11 -I/usr/X11/include -I/opt/local/include -W -Wall -Wno-unused-parameter -Wno-deprecated-declarations
-LDFLAGS += -L/usr/X11/lib -L/opt/local/lib
+include colors.mk
+CXXFLAGS += -std=c++11 -I/usr/X11/include -I/opt/homebrew/include -W -Wall -Wno-unused-parameter -Wno-deprecated-declarations
+
+# brew install
+# - mesa
+# - mesa-glu
+# - freeglut
+# - GLEW
+LDFLAGS +=  -L/opt/homebrew/lib
 
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
@@ -10,11 +17,13 @@ run: main.exe
 	./main.exe
 
 main.exe: $(OBJ)
-	$(CXX) $(LDFLAGS) -o $@ $(OBJ) -lglut -lGLU -lGL -lGLEW -ldl -lpthread
+	$(call make_echo_link_cxx_executable)
+	$(at) $(CXX) $(LDFLAGS) -o $@ $(OBJ) -lglut -lGLU -lGL -lGLEW -ldl -lpthread
 
 .cpp.o:
-	$(CXX) $(CXXFLAGS) -c $<
+	$(call make_echo_build_cxx_object)
+	$(at) $(CXX) $(CXXFLAGS) -c $<
 
 clean:
-	-\rm *.o *.exe
+	$(at) -\rm *.o *.exe
 
